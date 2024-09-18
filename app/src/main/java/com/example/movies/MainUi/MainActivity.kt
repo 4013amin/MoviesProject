@@ -28,16 +28,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             MoviesTheme {
 
-                // This makes the system windows (like the status bar) transparent
                 WindowCompat.setDecorFitsSystemWindows(window, false)
 
-                // Remove system window color (status bar, navigation bar) to be fully transparent
                 window.setFlags(
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
                 )
 
-                // Apply a linear gradient background
                 val linearGradientBrush = Brush.linearGradient(
                     colors = listOf(
                         Color(0xFFB226E1),
