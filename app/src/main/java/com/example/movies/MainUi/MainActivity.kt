@@ -51,13 +51,12 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(Color.Transparent), // Set to transparent to see the gradient
                 ) {
-                    // Background with the linear gradient
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
                             .background(linearGradientBrush)
                     ) {
-                        // Navigation and content
                         navigation()
                     }
                 }

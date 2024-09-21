@@ -110,7 +110,7 @@ fun ItemUi(itemIndex: Int, movieList: List<Data>, navController: NavHostControll
             .wrapContentSize()
             .padding(10.dp)
             .clickable {
-                navController.navigate("Details screen/${movieList[itemIndex].id}")
+                navController.navigate("DetailsScreen/${movieList[itemIndex].id}")
             },
         elevation = CardDefaults.cardElevation(8.dp)
     ) {

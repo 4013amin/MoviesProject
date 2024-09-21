@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.models.Data
+import com.example.movies.data.models.Details
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
@@ -14,7 +15,7 @@ class MovieViewModel : ViewModel() {
     var state by mutableStateOf(ScreenState())
 
     init {
-        loadNextItems() // Load initial data
+        loadNextItems()
     }
 
     fun loadNextItems() {
@@ -36,6 +37,19 @@ class MovieViewModel : ViewModel() {
             }
         }
     }
+
+    fun getDetailsById(id: Int) {
+        viewModelScope.launch {
+            val response = repository.getDetailsById(id)
+            if (response.isSuccessful) {
+                state = state.copy(
+                    detailsScreen = response.body()!!
+                )
+            } else {
+                state = state.copy(error = "Failed to load data", isLoading = false)
+            }
+        }
+    }
 }
 
 data class ScreenState(
@@ -43,5 +57,6 @@ data class ScreenState(
     val page: Int = 1,
     val isLoading: Boolean = false,
     val endReached: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val detailsScreen: Details = Details()
 )
