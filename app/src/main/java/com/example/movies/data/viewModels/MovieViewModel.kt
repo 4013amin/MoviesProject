@@ -7,15 +7,43 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.data.models.Data
 import com.example.movies.data.models.Details
+import com.example.movies.paging.paginationFactory
 import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
 
     private val repository = Repository()
     var state by mutableStateOf(ScreenState())
+    private val paginationFactory = paginationFactory(
+        initPage = state.page,
+        onloadUpdated = {
+            state = state.copy(
+                isLoading = it
+            )
+        },
+        onRequest = {
+            repository.getMoveList(it)
+        },
+        getNextKey = {
+            state.page + 1
+        },
+        onError = {
+            state = state.copy(
+                error = it?.localizedMessage,
+                isLoading = false
+            )
+        },
+        onsucssuc = { item, newPage ->
+            state = state.copy(
+                movies = state.movies + item.data,
+                page = newPage,
+                endReached = state.page == 25,
+            )
+        }
+    )
 
     init {
-        loadNextItems()
+        loadNextItem()
     }
 
     fun loadNextItems() {
@@ -50,6 +78,15 @@ class MovieViewModel : ViewModel() {
             }
         }
     }
+
+
+    fun loadNextItem() {
+        viewModelScope.launch {
+            paginationFactory.loadNexPage()
+        }
+    }
+
+
 }
 
 data class ScreenState(
@@ -58,5 +95,5 @@ data class ScreenState(
     val isLoading: Boolean = false,
     val endReached: Boolean = false,
     val error: String? = null,
-    val detailsScreen: Details = Details()
+    val detailsScreen: Details = Details(),
 )

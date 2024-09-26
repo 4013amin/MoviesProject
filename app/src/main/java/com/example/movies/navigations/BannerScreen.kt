@@ -101,7 +101,7 @@ fun BannerScreen(navController: NavHostController) {
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
                         fontFamily = FontFamily(Font(R.font.cinzel_decorative)),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
                 )
             }
